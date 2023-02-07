@@ -24,13 +24,12 @@ module.exports = (sequelize, Datatypes) => {
           isEmail: true,
         },
       },
-      mobile: {
+      telephone: {
         type: Datatypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
           isNumeric: true,
-          max: 10,
         },
       },
       password: {
