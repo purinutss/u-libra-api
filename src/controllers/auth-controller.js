@@ -53,8 +53,12 @@ exports.login = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    res.status(200).json(accessToken);
+    res.status(200).json({ accessToken }); //data:{accessToken:sadfasdfsadf} //data:asdfasdfasdfasdf
   } catch (err) {
     next(err);
   }
+};
+
+exports.getMe = (req, res, next) => {
+  res.status(200).json({ user: req.user });
 };
