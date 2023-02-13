@@ -49,9 +49,23 @@ exports.login = async (req, res, next) => {
       createError("User not found, invalid email or password", 400);
     }
 
-    const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    });
+    const accessToken = jwt.sign(
+      {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        telephone: user.telephone,
+        profileImage: user.profileImage,
+        role: user.role,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      }
+    );
 
     res.status(200).json({ accessToken }); //data:{accessToken:sadfasdfsadf} //data:asdfasdfasdfasdf
   } catch (err) {
