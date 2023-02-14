@@ -1,4 +1,4 @@
-const { Comment } = require("../models");
+const { Comment, User } = require("../models");
 
 exports.createComment = async (req, res, next) => {
   try {
@@ -7,7 +7,17 @@ exports.createComment = async (req, res, next) => {
       bookId: req.params.bookId,
       userId: req.user.id,
     });
-    res.status(201).json({ comment });
+    const response = await Comment.findOne({
+      where: {
+        userId: req.user.id,
+      },
+      include: [{ model: User }],
+      order: [["createdAt", "DESC"]],
+    });
+    // console.log("-------------------", JSON.parse(JSON.stringify(response)));
+    // const xxx = JSON.parse(JSON.stringify(response));
+    // res.status(201).json({ response });
+    res.status(201).json({ response });
   } catch (err) {
     next(err);
   }
@@ -33,6 +43,7 @@ exports.getAllCommentsInTheBook = async (req, res, next) => {
       where: {
         bookId: req.params.bookId,
       },
+      include: [{ model: User }],
     });
     res.status(200).json({ comments });
   } catch (err) {

@@ -16,7 +16,7 @@ exports.getBookById = async (req, res, next) => {
       where: {
         id: req.params.bookId,
       },
-      include: [{ model: University }],
+      include: [{ model: University }, { model: Category }],
     });
     res.status(200).json({ book });
   } catch (err) {
