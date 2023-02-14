@@ -1,9 +1,9 @@
-const { Book } = require("../models");
+const { Book, Category, University } = require("../models");
 const cloudinary = require("../utils/cloudinary");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const books = await Book.findAll();
+    const books = await Book.findAll({ include: [{ model: Category }] });
     res.status(200).json({ books });
   } catch (err) {
     next(err);
@@ -16,6 +16,7 @@ exports.getBookById = async (req, res, next) => {
       where: {
         id: req.params.bookId,
       },
+      include: [{ model: University }],
     });
     res.status(200).json({ book });
   } catch (err) {
@@ -25,8 +26,8 @@ exports.getBookById = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    // const url = await cloudinary.upload(req.file.path);
-    const url = "sfsadfsdjfhakjlghoehg;oerhgo;afs";
+    const url = await cloudinary.upload(req.file.path);
+    // const url = "sfsadfsdjfhakjlghoehg;oerhgo;afs";
     const book = await Book.create({
       title: req.body.title,
       summary: req.body.summary,
@@ -41,10 +42,11 @@ exports.createBook = async (req, res, next) => {
 };
 
 exports.updateBook = async (req, res, next) => {
+  console.log("sdfsdfsdsadfsdafasdfsd", req.files);
   try {
     const book = await Book.update(req.body, {
       where: {
-        bookId: req.params.bookId,
+        id: req.params.bookId,
       },
     });
     res.status(200).json({ book });

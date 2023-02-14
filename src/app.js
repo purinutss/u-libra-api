@@ -1,4 +1,4 @@
-// const { sequelize } = require("./models");
+// const { sequelize, University } = require("./models");
 // sequelize.sync({ force: true });
 require("dotenv").config();
 const express = require("express");
@@ -15,6 +15,8 @@ const authRoute = require("./routers/auth-route");
 const commentRoute = require("./routers/comment-route");
 const chapterRoute = require("./routers/chapter-route");
 const bookRoute = require("./routers/book-route");
+const categoryRoute = require("./routers/category-route");
+const universityRoute = require("./routers/university-route");
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.use("/auth", authRoute);
 app.use("/comment", authenticateMiddleware, commentRoute);
 app.use("/chapter", chapterRoute);
 app.use("/book", bookRoute);
+app.use("/category", categoryRoute);
+app.use("/university", universityRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
