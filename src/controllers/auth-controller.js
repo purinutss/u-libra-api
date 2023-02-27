@@ -1,7 +1,4 @@
-const {
-  validateRegister,
-  validateLogin,
-} = require("../validators/auth-validator");
+const { validateRegister, validateLogin } = require("../validators/auth-validator");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -16,7 +13,7 @@ exports.register = async (req, res, next) => {
     console.log(value);
 
     const user = await User.findOne({
-      where: { email: { [Op.eq]: value.email } },
+      where: { email: { [Op.eq]: value.email } }
     });
     console.log(user);
 
@@ -37,7 +34,7 @@ exports.login = async (req, res, next) => {
     const value = validateLogin(req.body);
 
     const user = await User.findOne({
-      where: { email: { [Op.eq]: value.email } },
+      where: { email: { [Op.eq]: value.email } }
     });
 
     if (!user) {
@@ -59,11 +56,11 @@ exports.login = async (req, res, next) => {
         profileImage: user.profileImage,
         role: user.role,
         createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
+        updatedAt: user.updatedAt
       },
       process.env.JWT_SECRET_KEY,
       {
-        expiresIn: process.env.JWT_EXPIRES_IN,
+        expiresIn: process.env.JWT_EXPIRES_IN
       }
     );
 

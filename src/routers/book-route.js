@@ -7,11 +7,7 @@ const router = express.Router();
 
 router.get("/", bookController.getAllBooks);
 router.get("/get/:bookId", bookController.getBookById);
-router.post(
-  "/post/:universityId/:categoryId",
-  upload.single("bookCover"),
-  bookController.createBook
-);
+router.post("/post/create-book", upload.single("bookCover"), bookController.createBook);
 router.delete("/delete/:bookId", bookController.deleteBook);
 router.patch("/update/:bookId", bookController.updateBook);
 

@@ -14,9 +14,9 @@ exports.getBookById = async (req, res, next) => {
   try {
     const book = await Book.findOne({
       where: {
-        id: req.params.bookId,
+        id: req.params.bookId
       },
-      include: [{ model: University }, { model: Category }],
+      include: [{ model: University }, { model: Category }]
     });
     res.status(200).json({ book });
   } catch (err) {
@@ -33,9 +33,9 @@ exports.createBook = async (req, res, next) => {
       summary: req.body.summary,
       bookCover: url,
       universityId: req.params.universityId,
-      categoryId: req.params.categoryId,
+      categoryId: req.params.categoryId
     });
-    res.status(201).json({ book });
+    res.status(201).json({ createBook });
   } catch (err) {
     next(err);
   }
@@ -46,8 +46,8 @@ exports.updateBook = async (req, res, next) => {
   try {
     const book = await Book.update(req.body, {
       where: {
-        id: req.params.bookId,
-      },
+        id: req.params.bookId
+      }
     });
     res.status(200).json({ book });
   } catch (err) {
