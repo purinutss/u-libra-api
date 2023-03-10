@@ -1,5 +1,6 @@
 // const { sequelize, University } = require("./models");
-// sequelize.sync({ force: true });
+// sequelize.sync({ alter: true });
+
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -17,6 +18,7 @@ const chapterRoute = require("./routers/chapter-route");
 const bookRoute = require("./routers/book-route");
 const categoryRoute = require("./routers/category-route");
 const universityRoute = require("./routers/university-route");
+const userRoute = require("./routers/user-route");
 
 const app = express();
 
@@ -25,7 +27,7 @@ app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 10000,
-    message: { message: "many requested, please try again" },
+    message: { message: "many requested, please try again" }
   })
 ); //limit request
 app.use(helmet()); //protect hijack
@@ -38,6 +40,7 @@ app.use("/chapter", chapterRoute);
 app.use("/book", bookRoute);
 app.use("/category", categoryRoute);
 app.use("/university", universityRoute);
+app.use("/user", authenticateMiddleware, userRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);

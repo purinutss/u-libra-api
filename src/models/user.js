@@ -6,49 +6,55 @@ module.exports = (sequelize, Datatypes) => {
         type: Datatypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       lastName: {
         type: Datatypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       email: {
         type: Datatypes.STRING,
         allowNull: false,
         unique: true,
         validate: {
-          isEmail: true,
-        },
+          isEmail: true
+        }
       },
       telephone: {
         type: Datatypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
-          isNumeric: true,
-        },
+          isNumeric: true
+        }
       },
       password: {
         type: Datatypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
-          min: 8,
-        },
+          min: 8
+        }
       },
       profileImage: {
-        type: Datatypes.STRING,
+        type: Datatypes.STRING
+      },
+      username: {
+        type: Datatypes.STRING
+      },
+      bio: {
+        type: Datatypes.STRING
       },
       role: {
-        type: Datatypes.STRING,
-      },
+        type: Datatypes.STRING
+      }
     },
     {
-      underscored: true,
+      underscored: true
     }
   );
 
@@ -56,9 +62,9 @@ module.exports = (sequelize, Datatypes) => {
     User.hasMany(models.Comment, {
       foreignKey: {
         name: "userId",
-        allowNull: false,
+        allowNull: false
       },
-      onDelete: "RESTRICT",
+      onDelete: "RESTRICT"
     });
   };
 
