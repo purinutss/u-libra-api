@@ -30,6 +30,10 @@ exports.getBookById = async (req, res, next) => {
 exports.createBook = async (req, res, next) => {
   try {
     const bookCoverUrl = await cloudinary.upload(req.file.path);
+
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
     const book = await Book.create({
       title: req.body.title,
       summary: req.body.summary,
@@ -37,6 +41,7 @@ exports.createBook = async (req, res, next) => {
       universityId: req.body.universityId,
       categoryId: req.body.categoryId
     });
+
     const createBook = await Book.findOne({
       include: [{ model: Category }, { model: University }]
     });
@@ -49,12 +54,23 @@ exports.createBook = async (req, res, next) => {
 };
 
 exports.updateBook = async (req, res, next) => {
+  console.log("------------------------------------->", req.body);
   try {
-    const book = await Book.update(req.body, {
-      where: {
-        id: req.params.bookId
-      }
-    });
+    const updateBookCoverUrl = await cloudinary.upload(req.file.path);
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    const book = await Book.update(
+      {
+        title: req.body.title,
+        summary: req.body.summary,
+        bookCover: updateBookCoverUrl,
+        universityId: req.body.universityId,
+        categoryId: req.body.categoryId
+      },
+      { where: { id: req.params.bookId } }
+    );
+
     res.status(200).json({ book });
   } catch (err) {
     next(err);
