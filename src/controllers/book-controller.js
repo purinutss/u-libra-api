@@ -28,8 +28,6 @@ exports.getBookById = async (req, res, next) => {
 };
 
 exports.createBook = async (req, res, next) => {
-  console.log("request body------------------------>", req.body);
-  console.log("request file------------------------>", req.file);
   try {
     const bookCoverUrl = await cloudinary.upload(req.file.path);
     const book = await Book.create({
@@ -51,7 +49,6 @@ exports.createBook = async (req, res, next) => {
 };
 
 exports.updateBook = async (req, res, next) => {
-  console.log("sdfsdfsdsadfsdafasdfsd", req.files);
   try {
     const book = await Book.update(req.body, {
       where: {
@@ -66,7 +63,15 @@ exports.updateBook = async (req, res, next) => {
 
 exports.deleteBook = async (req, res, next) => {
   try {
-    await Book.destroy;
+    if (req.user.role !== "admin") {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    await Book.destroy({
+      where: {
+        id: req.params.bookId
+      }
+    });
+    res.status(204).json();
   } catch (err) {
     next(err);
   }

@@ -36,8 +36,8 @@ app.use(express.json());
 
 app.use("/auth", authRoute);
 app.use("/comment", authenticateMiddleware, commentRoute);
-app.use("/chapter", chapterRoute);
-app.use("/book", bookRoute);
+app.use("/chapter", authenticateMiddleware, chapterRoute);
+app.use("/book", authenticateMiddleware, bookRoute);
 app.use("/category", categoryRoute);
 app.use("/university", universityRoute);
 app.use("/user", authenticateMiddleware, userRoute);

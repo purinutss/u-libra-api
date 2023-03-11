@@ -34,9 +34,9 @@ exports.editProfile = async (req, res, next) => {
 
 exports.getProfileById = async (req, res, next) => {
   try {
-    const user = await User.fineOne({
+    const user = await User.findOne({
       where: {
-        id: +req.params.userId
+        id: req.params.userId
       }
     });
     res.status(200).json({ user });
