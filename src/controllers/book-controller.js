@@ -56,7 +56,10 @@ exports.createBook = async (req, res, next) => {
 exports.updateBook = async (req, res, next) => {
   console.log("------------------------------------->", req.body);
   try {
-    const updateBookCoverUrl = await cloudinary.upload(req.file.path);
+    let updateBookCoverUrl;
+    if (req.file) {
+      updateBookCoverUrl = await cloudinary.upload(req.file?.path);
+    }
     if (req.user.role !== "admin") {
       return res.status(403).json({ message: "Unauthorized" });
     }
