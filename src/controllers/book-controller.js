@@ -77,6 +77,8 @@ exports.updateBook = async (req, res, next) => {
     res.status(200).json({ book });
   } catch (err) {
     next(err);
+  } finally {
+    fs.unlinkSync(req.file.path);
   }
 };
 
