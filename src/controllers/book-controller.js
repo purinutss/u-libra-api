@@ -30,10 +30,12 @@ exports.getBookById = async (req, res, next) => {
 
 exports.createBook = async (req, res, next) => {
   try {
-    const bookCoverUrl = await cloudinary.upload(req.file.path);
-
     if (req.user.role !== "admin") {
       return res.status(403).json({ message: "Unauthorized" });
+    }
+    let bookCoverUrl;
+    if (req.file) {
+      bookCoverUrl = await cloudinary.upload(req.file.path);
     }
     const book = await Book.create({
       title: req.body.title,
@@ -50,7 +52,9 @@ exports.createBook = async (req, res, next) => {
   } catch (err) {
     next(err);
   } finally {
-    fs.unlinkSync(req.file.path);
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 };
 
