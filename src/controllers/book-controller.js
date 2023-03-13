@@ -5,7 +5,8 @@ const fs = require("fs");
 exports.getAllBooks = async (req, res, next) => {
   try {
     const books = await Book.findAll({
-      include: [{ model: Category }]
+      include: [{ model: Category }],
+      order: [["createdAt", "DESC"]]
     });
     res.status(200).json({ books });
   } catch (err) {
