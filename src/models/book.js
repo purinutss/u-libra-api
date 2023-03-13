@@ -6,20 +6,20 @@ module.exports = (sequelize, Datatypes) => {
         type: Datatypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       summary: {
         type: Datatypes.TEXT,
         allowNull: false,
         validate: {
-          notEmpty: true,
-        },
+          notEmpty: true
+        }
       },
       bookCover: {
         type: Datatypes.STRING,
-        allowNull: false,
-      },
+        allowNull: false
+      }
     },
     { underscored: true }
   );
@@ -28,25 +28,26 @@ module.exports = (sequelize, Datatypes) => {
     Book.hasMany(models.Comment, {
       foreignKey: {
         name: "bookId",
-        allowNull: false,
+        allowNull: false
       },
-      onDelete: "RESTRICT",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE"
     });
 
     Book.belongsTo(models.University, {
       foreignKey: {
         name: "universityId",
-        allowNull: false,
+        allowNull: false
       },
-      onDelete: "RESTRICT",
+      onDelete: "RESTRICT"
     });
 
     Book.belongsTo(models.Category, {
       foreignKey: {
         name: "categoryId",
-        allowNull: false,
+        allowNull: false
       },
-      onDelete: "RESTRICT",
+      onDelete: "RESTRICT"
     });
   };
 

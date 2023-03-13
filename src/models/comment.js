@@ -3,8 +3,8 @@ module.exports = (sequelize, Datatypes) => {
     "Comment",
     {
       detail: {
-        type: Datatypes.STRING,
-      },
+        type: Datatypes.STRING
+      }
     },
     { underscored: true }
   );
@@ -13,17 +13,18 @@ module.exports = (sequelize, Datatypes) => {
     Comment.belongsTo(models.User, {
       foreignKey: {
         name: "userId",
-        allowNull: false,
+        allowNull: false
       },
-      onDelete: "RESTRICT",
+      onDelete: "RESTRICT"
     });
 
     Comment.belongsTo(models.Book, {
       foreignKey: {
         name: "userId",
-        allowNull: false,
+        allowNull: false
       },
-      onDelete: "RESTRICT",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE"
     });
   };
 

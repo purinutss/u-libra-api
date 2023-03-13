@@ -79,7 +79,9 @@ exports.updateBook = async (req, res, next) => {
   } catch (err) {
     next(err);
   } finally {
-    fs.unlinkSync(req.file.path);
+    if (req.file) {
+      fs.unlinkSync(req.file.path);
+    }
   }
 };
 
