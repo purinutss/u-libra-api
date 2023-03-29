@@ -14,9 +14,6 @@ exports.createComment = async (req, res, next) => {
       include: [{ model: User }],
       order: [["createdAt", "DESC"]]
     });
-    // console.log("-------------------", JSON.parse(JSON.stringify(response)));
-    // const xxx = JSON.parse(JSON.stringify(response));
-    // res.status(201).json({ response });
     res.status(201).json({ response });
   } catch (err) {
     next(err);

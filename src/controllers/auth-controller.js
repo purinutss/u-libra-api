@@ -8,14 +8,11 @@ const createError = require("../utils/create-error");
 
 exports.register = async (req, res, next) => {
   try {
-    console.log(req.body);
     const value = validateRegister(req.body);
-    console.log(value);
 
     const user = await User.findOne({
       where: { email: { [Op.eq]: value.email } }
     });
-    console.log(user);
 
     if (user) {
       createError("Email has already exist", 400);

@@ -1,6 +1,8 @@
 const { Book, Category, University, User } = require("../models");
-const cloudinary = require("../utils/cloudinary");
+const { Op } = require("sequelize");
 const fs = require("fs");
+
+const cloudinary = require("../utils/cloudinary");
 
 exports.getAllBooks = async (req, res, next) => {
   try {
@@ -59,7 +61,6 @@ exports.createBook = async (req, res, next) => {
 };
 
 exports.updateBook = async (req, res, next) => {
-  console.log("------------------------------------->", req.body);
   try {
     let updateBookCoverUrl;
     if (req.file) {
@@ -100,6 +101,22 @@ exports.deleteBook = async (req, res, next) => {
       }
     });
     res.status(204).json();
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getBookTitles = async (req, res, next) => {
+  try {
+    const { bookTitle = "" } = req.query;
+    const bookTitles = await Book.findAll({
+      where: {
+        title: {
+          [Op.like]: `%${bookTitle}%`
+        }
+      }
+    });
+    res.status(200).json({ bookTitles });
   } catch (err) {
     next(err);
   }
